@@ -19,12 +19,11 @@ https://github.com/golang/crypto/blob/master/pkcs12/bmp-string.go
 -- |
 -- BMP string encoding.
 encode :: String -> B.ByteString
-encode s = B.append folded null
-  where null = B.append (B.singleton 0) (B.singleton 0)
-        bsList = fmap (\c -> B.append
+encode s = foldl B.append B.empty bsList
+  where bsList = fmap (\c -> B.append
                              (B.singleton $ fromIntegral (ord c `div` 256))
-                             (B.singleton $ fromIntegral (ord c `mod` 256))) s
-        folded = foldl B.append B.empty bsList
+                             (B.singleton $ fromIntegral (ord c `mod` 256)))
+          (s ++ [chr 0])
 
 -- |
 -- BMP string decoding.
