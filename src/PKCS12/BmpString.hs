@@ -22,22 +22,22 @@ encode :: String -> B.ByteString
 encode s = B.append folded null
   where null = B.append (B.singleton 0) (B.singleton 0)
         bsList = fmap (\c -> B.append
-                             (B.singleton $ fromIntegral ((ord c) `div` 256))
-                             (B.singleton $ fromIntegral ((ord c) `mod` 256))) s
+                             (B.singleton $ fromIntegral (ord c `div` 256))
+                             (B.singleton $ fromIntegral (ord c `mod` 256))) s
         folded = foldl B.append B.empty bsList
 
 -- |
 -- BMP string decoding.
 decode :: B.ByteString -> Either String String
 decode bs =
-  case (B.length bs) `mod` 2 of
+  case B.length bs `mod` 2 of
     0 ->
       Right $ fmap toChar (chunksOf 2 (dropRight 2 w8s))
       where w8s = B.unpack bs
             toChar :: [Word8] -> Char
-            toChar (a:b:[]) = chr ((fromIntegral a) * 256 + (fromIntegral b))
+            toChar [a, b] = chr (fromIntegral a * 256 + fromIntegral b)
     otherwise ->
       Left "odd-length BMP string"
 
 dropRight :: Int -> [a] -> [a]
-dropRight n xs = take ((length xs) - n) xs
+dropRight n xs = take (length xs - n) xs
