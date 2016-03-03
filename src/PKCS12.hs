@@ -4,7 +4,7 @@ module PKCS12 (
 import Data.ASN1.OID (OID)
 import Data.ByteString (ByteString)
 import PKCS12.BmpString (
-  bmpString
+  encode
   )
 import PKCS12.Mac (MacData)
 import X509.Pkix (AlgorithmIdentifier)
