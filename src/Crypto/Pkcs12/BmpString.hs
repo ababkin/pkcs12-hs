@@ -21,13 +21,17 @@ newtype BmpString = BmpString { unBmpString :: B.ByteString }
 
 -- |
 -- BMP string encoding.
-encode :: String -> BmpString
-encode s = BmpString bs
-  where bsList = fmap (\c -> B.append
-                             (B.singleton $ fromIntegral (ord c `div` 256))
-                             (B.singleton $ fromIntegral (ord c `mod` 256)))
-          (s ++ [chr 0])
-        bs = foldl B.append B.empty bsList
+encode :: String -> Maybe BmpString
+encode s =
+  case any (\c -> ord c > 65535) s of
+    True -> Nothing
+    False ->
+      Just $ BmpString bs
+      where bsList = fmap (\c -> B.append
+                                 (B.singleton $ fromIntegral (ord c `div` 256))
+                                 (B.singleton $ fromIntegral (ord c `mod` 256)))
+              (s ++ [chr 0])
+            bs = foldl B.append B.empty bsList
 
 -- |
 -- BMP string decoding.
