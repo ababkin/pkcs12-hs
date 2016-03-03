@@ -18,6 +18,7 @@ library
   exposed-modules:     Crypto.Pkcs12
                      , Crypto.Pkcs12.BmpString
                      , Crypto.Pkcs12.Mac
+                     , Crypto.Pkcs12.Pbkdf
                      , Crypto.X509.Pkix
   build-depends:       base >= 4.7 && < 5
                      , asn1-encoding
