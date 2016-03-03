@@ -1,4 +1,4 @@
-module PKCS12.BmpString (
+module Crypto.Pkcs12.BmpString (
   BmpString(..),
   encode,
   decode

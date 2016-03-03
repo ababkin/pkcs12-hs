@@ -1,6 +1,6 @@
-module PKCS12.Mac where
+module Crypto.Pkcs12.Mac where
 
-import X509.Pkix (
+import Crypto.X509.Pkix (
   AlgorithmIdentifier
   )
 import Data.ByteString (ByteString)

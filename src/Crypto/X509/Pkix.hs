@@ -1,4 +1,4 @@
-module X509.Pkix where
+module Crypto.X509.Pkix where
 
 import Data.ASN1.OID (OID)
 import Data.ByteString (ByteString)

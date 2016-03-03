@@ -1,5 +1,5 @@
 import Test.Hspec
-import PKCS12.BmpString (
+import Crypto.Pkcs12.BmpString (
   BmpString(..),
   encode,
   decode

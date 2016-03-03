@@ -1,13 +1,13 @@
-module PKCS12 (
+module Crypto.Pkcs12 (
               ) where
 
-import Data.ASN1.OID (OID)
-import Data.ByteString (ByteString)
-import PKCS12.BmpString (
+import Crypto.Pkcs12.BmpString (
   encode
   )
-import PKCS12.Mac (MacData)
-import X509.Pkix (AlgorithmIdentifier)
+import Crypto.Pkcs12.Mac (MacData)
+import Crypto.X509.Pkix (AlgorithmIdentifier)
+import Data.ASN1.OID (OID)
+import Data.ByteString (ByteString)
 
 -- ref. https://github.com/golang/crypto/blob/master/pkcs12/pkcs12.go
 
