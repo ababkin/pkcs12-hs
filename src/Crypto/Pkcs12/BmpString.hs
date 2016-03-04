@@ -32,7 +32,7 @@ encode s =
                                  (bsFromInt (ord c `mod` 0x100)))
               nullTerminated
             bs = foldl B.append B.empty bsList
-            nullTerminated = s ++ ['\0']
+            nullTerminated = s ++ "\0"
             bsFromInt = B.singleton . fromIntegral
 
 -- |
