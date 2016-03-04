@@ -8,10 +8,10 @@ import Crypto.Pkcs12.BmpString (
   decode
   )
 import qualified Data.ByteString as B
-import Test.Hspec
-import Test.QuickCheck
 import qualified Data.ByteString.Base16 as H
-import Data.Either.Compat
+import           Data.Either.Compat
+import           Test.Hspec
+import           Test.QuickCheck
 
 spec =
   describe "BmpString" $ do
