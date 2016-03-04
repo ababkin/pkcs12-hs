@@ -20,6 +20,7 @@ library
                      , Crypto.Pkcs12.Mac
                      , Crypto.Pkcs12.Pbkdf
                      , Crypto.X509.Pkix
+                     , Data.ByteString.Split
   build-depends:       base >= 4.7 && < 5
                      , asn1-encoding
                      , asn1-types
