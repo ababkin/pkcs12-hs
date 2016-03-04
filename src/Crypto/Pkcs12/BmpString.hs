@@ -28,10 +28,12 @@ encode s =
     True ->
       Just $ BmpString bs
       where bsList = fmap (\c -> B.append
-                                 (B.singleton $ fromIntegral (ord c `div` 256))
-                                 (B.singleton $ fromIntegral (ord c `mod` 256)))
-              (s ++ [chr 0])
+                                 (bsFromInt (ord c `div` 0x100))
+                                 (bsFromInt (ord c `mod` 0x100)))
+              nullTerminated
             bs = foldl B.append B.empty bsList
+            nullTerminated = s ++ ['\0']
+            bsFromInt = B.singleton . fromIntegral
 
 -- |
 -- BMP string decoding.
