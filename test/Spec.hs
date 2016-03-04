@@ -9,6 +9,7 @@ import qualified Data.ByteString as B
 import Test.Hspec
 import Test.QuickCheck
 import qualified Data.ByteString.Base16 as H
+import Data.Either.Compat
 
 main :: IO ()
 main = hspec $ do
@@ -39,6 +40,12 @@ main = hspec $ do
         \s ->
         let Just bmp = encode s in
         decode bmp `shouldBe` Right s
+
+      it "returns Left when length is odd" $
+        isLeft $ decode (BmpString "\0\x42\0")
+
+      it "doesn't strip when not null terminated" $
+        decode (BmpString "\0\x42\0\x65") `shouldBe` (Right "Be")
 
 hexBmpString :: String -> Maybe B.ByteString
 hexBmpString s = fmap (H.encode . unBmpString) (encode s)

@@ -41,15 +41,21 @@ decode :: BmpString -> Either String String
 decode (BmpString bs) =
   case B.length bs `mod` 2 of
     0 ->
-      Right $ fmap toChar (chunksOf 2 (dropRight 2 w8s))
+      Right $ fmap toChar (chunksOf 2 nullStripped)
       where w8s = B.unpack bs
             toChar :: [Word8] -> Char
             toChar [a, b] = chr (fromIntegral a * 256 + fromIntegral b)
+            nullStripped = case takeRight 2 w8s of
+              [0, 0] -> dropRight 2 w8s
+              otherwise -> w8s
     otherwise ->
       Left "odd-length BMP string"
 
 dropRight :: Int -> [a] -> [a]
 dropRight n xs = take (length xs - n) xs
+
+takeRight :: Int -> [a] -> [a]
+takeRight n xs = drop (length xs - n) xs
 
 -- |
 -- Returns whether Char is in BMP (Basic Multilingual Plane).
