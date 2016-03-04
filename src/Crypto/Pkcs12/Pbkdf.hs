@@ -8,16 +8,10 @@ import           Crypto.Pkcs12.BmpString (
   BmpString(..)
   )
 import qualified Data.ByteString as B
-import Data.ByteString.Builder (
-  toLazyByteString,
-  byteString
-  )
-import qualified Data.ByteString.Lazy as L
 import Data.ByteString.Split (
   chunksOf
   )
 import           Data.Word (Word8)
-import           Debug.Trace
 import           Numeric.Natural (Natural(..))
 
 -- https://github.com/golang/crypto/blob/master/pkcs12/pbkdf.go
