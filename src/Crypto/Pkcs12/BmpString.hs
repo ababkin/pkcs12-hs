@@ -23,9 +23,9 @@ newtype BmpString = BmpString { unBmpString :: B.ByteString }
 -- BMP string encoding.
 encode :: String -> Maybe BmpString
 encode s =
-  case any (\c -> ord c > 65535) s of
-    True -> Nothing
-    False ->
+  case all isBmp s of
+    False -> Nothing
+    True ->
       Just $ BmpString bs
       where bsList = fmap (\c -> B.append
                                  (B.singleton $ fromIntegral (ord c `div` 256))
@@ -48,3 +48,12 @@ decode (BmpString bs) =
 
 dropRight :: Int -> [a] -> [a]
 dropRight n xs = take (length xs - n) xs
+
+-- |
+-- Returns whether Char is in BMP (Basic Multilingual Plane).
+--
+-- BMP code point ranges 0000 to FFFF.
+-- ref. https://en.wikipedia.org/wiki/Plane_(Unicode)#Basic_Multilingual_Plane
+isBmp :: Char -> Bool
+isBmp c = codePoint >= 0 && codePoint <= 0xFFFF
+  where codePoint = ord c

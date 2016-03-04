@@ -21,6 +21,7 @@ main = hspec $ do
         -- Some characters from the "Letterlike Symbols Unicode block".
         hexBmpString "\x2115 - Double-struck N" `shouldBe`
           Just "21150020002d00200044006f00750062006c0065002d00730074007200750063006b0020004e0000"
+        -- any character outside the BMP should trigger an error.
         hexBmpString "\x0001f000 East wind (Mahjong)" `shouldBe` Nothing
 
       it "has (n + 1) * 2 bytes length" $ property $
