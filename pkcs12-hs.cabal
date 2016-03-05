@@ -19,6 +19,7 @@ library
                      , Crypto.Pkcs12.BmpString
                      , Crypto.Pkcs12.Mac
                      , Crypto.Pkcs12.Pbkdf
+                     , Crypto.Pkcs12.Crypto
                      , Crypto.X509.Pkix
                      , Data.ByteString.Split
   build-depends:       base >= 4.7 && < 5
@@ -26,6 +27,7 @@ library
                      , asn1-types
                      , bytestring
                      , split
+                     , cryptohash
   default-language:    Haskell2010
 
 executable pkcs12-hs-exe
