@@ -12,7 +12,6 @@ import Data.ByteString.Split (
   chunksOf
   )
 import           Data.Word (Word8)
-import           Numeric.Natural (Natural(..))
 
 -- https://github.com/golang/crypto/blob/master/pkcs12/pbkdf.go
 
@@ -50,11 +49,11 @@ pbkdf hash u v salt password r id size =
         ai = hashN hash r (B.append d i)
         nextAcc = B.append acc $ B.take 20 ai
         b = B.take v (repeatBs ((v `div` B.length ai) + 1) ai)
-        bbi = decodeBs b :: Natural
+        bbi = bsToInteger b
         nextI = B.concat $ map partI $ chunksOf v i
         partI bs = paddedIjb
-          where ij = decodeBs bs :: Natural
-                ijb = takeRightBs v $ encodeBs $ ij + bbi + 1
+          where ij = bsToInteger bs
+                ijb = takeRightBs v $ integerToBs $ ij + bbi + 1
                 paddedIjb = B.append
                   (B.replicate (v - B.length ijb) 0)
                   ijb
@@ -62,11 +61,15 @@ pbkdf hash u v salt password r id size =
 takeRightBs :: Int -> B.ByteString -> B.ByteString
 takeRightBs n xs = B.drop (B.length xs - n) xs
 
-decodeBs :: B.ByteString -> Natural
-decodeBs = B.foldl (\acc n -> acc * 0x100 + fromIntegral n) 0
+-- |
+-- Interpret ByteString as an unsigned big endian Integer
+bsToInteger :: B.ByteString -> Integer
+bsToInteger = B.foldl (\acc n -> acc * 0x100 + fromIntegral n) 0
 
-encodeBs :: Natural -> B.ByteString
-encodeBs n = go n B.empty
+-- |
+-- Encode an unsigned Integer to ByteString
+integerToBs :: Integer -> B.ByteString
+integerToBs n = go n B.empty
   where go n acc
           | n == 0 = acc
           | otherwise = go nextN nextAcc
